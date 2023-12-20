@@ -1,9 +1,8 @@
-package main
+package genaral
 
 import "fmt"
 
-func main() {
-	fmt.Println("hello world!")
+func fmtLibs() {
 	var (
 		name    string
 		age     int
