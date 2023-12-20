@@ -1,0 +1,11 @@
+# IDE related
+.idea/
+.vs
+code/
+
+# Project related
+bin/
+log/
+vendor/
+#etc/localhost_*.yml
+.DS_Store
