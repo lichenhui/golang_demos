@@ -3,6 +3,7 @@ package genaral
 import (
 	"fmt"
 	"reflect"
+	"strings"
 )
 
 func fmtLibs() {
@@ -131,4 +132,111 @@ func recursionProfit(k int, prices []int, currentProfit int, totalProfitList []i
 		}
 	}
 	return totalProfitList
+}
+
+// 97. Interleaving String
+// https://leetcode.com/problems/interleaving-string/description/?envType=study-plan-v2&envId=top-interview-150
+func isInterleave(s1 string, s2 string, s3 string) bool {
+	return false
+}
+
+// 139. Word Break
+// https://leetcode.com/problems/word-break/description/?envType=study-plan-v2&envId=top-interview-150
+func wordBreak(s string, wordDict []string) bool {
+	result := make([]bool, 0)
+	result = workBreakInner(s, wordDict, result)
+	for _, v := range result {
+		if v {
+			return true
+		}
+	}
+	return false
+}
+
+func workBreakInner(s string, wordDict []string, result []bool) []bool {
+	if len(s) == 0 {
+		return append(result, true)
+	}
+	for _, wd := range wordDict {
+		if strings.HasPrefix(s, wd) {
+			newS := s[len(wd):]
+			return append(result, workBreakInner(newS, wordDict, result)...)
+		}
+	}
+	return append(result, false)
+}
+
+// 209. Minimum Size Subarray Sum
+// https://leetcode.com/problems/minimum-size-subarray-sum/description/?envType=study-plan-v2&envId=top-interview-150
+func minSubArrayLen(target int, nums []int) int {
+	// list all the combinations that consists of N elements, 1 <N <= length of number list
+	for i := 1; i <= len(nums); i++ {
+		currentSum := 0
+		sumList := make([]int, 0)
+		combs := findComb(i, nums, currentSum, sumList)
+		fmt.Println(combs)
+		for _, sum := range combs {
+			if sum >= target {
+				return i
+			}
+		}
+	}
+	return 0
+}
+
+// list all combinations and calculate their sums
+func findComb(n int, nums []int, currentSum int, sumList []int) []int {
+	if n == 0 || len(nums) == 0 {
+		return append(sumList, currentSum)
+	}
+	for i := 0; i < len(nums); i++ {
+		newSum := currentSum + nums[i]
+		newNums := nums[(i + 1):]
+		sumList = append(sumList, findComb(n-1, newNums, newSum, sumList)...)
+	}
+	return sumList
+}
+
+// 3. Longest Substring Without Repeating Characters
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&envId=top-interview-150
+func lengthOfLongestSubstring(s string) int {
+	// list all combinations that have target numbers of characters
+	for i := len(s); i > 0; i-- {
+		combs := make([]string, 0)
+		combs = findCombs(i, s, combs)
+		for _, str := range combs {
+			if !haveDuplicated(str) {
+				return len(str)
+			}
+		}
+	}
+	return 0
+}
+
+func findCombs(length int, s string, combStr []string) []string {
+	if len(s) == length {
+		return append(combStr, s)
+	}
+	if len(s) < length {
+		return combStr
+	}
+	subStr := s[0:length]
+	combStr = append(combStr, subStr)
+	newSubStr := s[length:]
+	return append(combStr, findCombs(length, newSubStr, combStr)...)
+
+}
+
+func haveDuplicated(s string) bool {
+	if len(s) == 1 {
+		return false
+	}
+	for i := 0; i < len(s); i++ {
+		for j := i + 1; j < len(s); j++ {
+			if s[i] == s[j] {
+				return true
+			}
+		}
+	}
+	return false
 }
