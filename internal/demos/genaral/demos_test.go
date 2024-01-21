@@ -47,3 +47,33 @@ func TestLengthOfLongestSubstring(t *testing.T) {
 	s := "bbbbb"
 	fmt.Println(lengthOfLongestSubstring(s))
 }
+
+func TestCombine(t *testing.T) {
+	fmt.Println(combine(4, 2))
+}
+
+func TestMyPow(t *testing.T) {
+	fmt.Println(myPow(-2, 3))
+}
+
+func TestMinhPathSum(t *testing.T) {
+	grids := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+	fmt.Println(minPathSum(grids))
+}
+
+func TestUser_HelloniquePathsWithObstacles(t *testing.T) {
+	grid := [][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}
+	fmt.Println(uniquePathsWithObstacles(grid))
+}
+
+func TestMinimumTotal(t *testing.T) {
+	//triangle := [][]int{{2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3}}
+	triangle := [][]int{{-10}}
+	fmt.Println(minimumTotal(triangle))
+}
+
+func TestZigzagConvert(t *testing.T) {
+	s := "PAYPALISHIRING"
+	rows := 3
+	fmt.Println(ZigzagConvert(s, rows))
+}
