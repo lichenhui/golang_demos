@@ -77,3 +77,10 @@ func TestZigzagConvert(t *testing.T) {
 	rows := 3
 	fmt.Println(ZigzagConvert(s, rows))
 }
+
+func TestBuildTree(t *testing.T) {
+	preorder := []int{3, 9, 20, 15, 7}
+	inorder := []int{9, 3, 15, 20, 7}
+	fmt.Println(BuildTree(preorder, inorder))
+
+}

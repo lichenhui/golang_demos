@@ -506,3 +506,85 @@ func ZigzagConvert(s string, numRows int) string {
 	}
 	return string(singleLine)
 }
+
+// 73. Set Matrix Zeroes
+// https://leetcode.com/problems/set-matrix-zeroes/description/?envType=study-plan-v2&envId=top-interview-150
+
+func setZeroes(matrix [][]int) {
+	// find the 0
+	zeroNodes := make([][]int, 0)
+	height := len(matrix)
+	width := len(matrix[0])
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			if matrix[y][x] == 0 {
+				zeroNodes = append(zeroNodes, []int{y, x})
+			}
+		}
+	}
+	// modify the values in the matrix
+	for _, node := range zeroNodes {
+		y := node[0]
+		x := node[1]
+		// change row
+		for i := 0; i < width; i++ {
+			matrix[y][i] = 0
+		}
+		// change column
+		for i := 0; i < height; i++ {
+			matrix[i][x] = 0
+		}
+	}
+}
+
+// 105. Construct Binary Tree from Preorder and Inorder Traversal
+// https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=study-plan-v2&envId=top-interview-150
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+func BuildTree(preorder []int, inorder []int) *TreeNode {
+	// root node
+	return buildTreeHelper(preorder, inorder)
+}
+
+// aways find the root node according to the
+func buildTreeHelper(preorder []int, inorder []int) *TreeNode {
+	if len(preorder) == 0 || len(inorder) == 0 {
+		return nil
+	}
+	rootNodeValue := preorder[0]
+	rootIndexInorder := 0
+	for i := 0; i < len(inorder); i++ {
+		if inorder[i] == rootNodeValue {
+			rootIndexInorder = i
+		}
+	}
+	fmt.Printf("preorder: %v, inorder: %v \n", preorder, inorder)
+	fmt.Printf("root value: %d, root index inorder: %d \n", rootNodeValue, rootIndexInorder)
+	leftTreeInorder := inorder[0:rootIndexInorder]
+	rightTreeInorder := inorder[(rootIndexInorder + 1):]
+
+	leftTreePreorder := preorder[1:(1 + len(leftTreeInorder))]
+	rightTreePreorder := preorder[(1 + len(leftTreeInorder)):]
+
+	leftTree := buildTreeHelper(leftTreePreorder, leftTreeInorder)
+	rightTree := buildTreeHelper(rightTreePreorder, rightTreeInorder)
+	rootNode := &TreeNode{
+		Val:   rootNodeValue,
+		Left:  leftTree,
+		Right: rightTree,
+	}
+	return rootNode
+}
